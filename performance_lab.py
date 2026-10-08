@@ -7,17 +7,20 @@
 # Output: 3
 
 def most_frequent(numbers):
-    # Your code here
-    pass
+    counts = {}
+    for num in numbers:
+        counts[num] = counts.get(num, 0) + 1
+    most_common = max(counts, key=counts.get)
+    return most_common
 
 """
 Time and Space Analysis for problem 1:
-- Best-case:
-- Worst-case:
-- Average-case:
-- Space complexity:
-- Why this approach?
-- Could it be optimized?
+- Best-case:O(n)
+- Worst-case:O(n)
+- Average-case: O(n)
+- Space complexity:O(n)
+- Why this approach? Only one pass is needed to count frequencies
+- Could it be optimized? No.
 """
 
 
@@ -29,17 +32,23 @@ Time and Space Analysis for problem 1:
 # Output: [4, 5, 6, 7]
 
 def remove_duplicates(nums):
-    # Your code here
-    pass
+    seen = set()
+    result = []
+    for num in nums:
+        if num not in seen:
+            seen.add(num)
+            result.append(num)
+    return result
+  
 
 """
 Time and Space Analysis for problem 2:
-- Best-case:
-- Worst-case:
-- Average-case:
-- Space complexity:
-- Why this approach?
-- Could it be optimized?
+- Best-case:O(n)
+- Worst-case:O(n)
+- Average-case: O(n)
+- Space complexity:O(n)
+- Why this approach? It uses a set for O(1) lookup time and a list to preserve order.
+- Could it be optimized? No.
 """
 
 
@@ -52,17 +61,24 @@ Time and Space Analysis for problem 2:
 # Output: [(1, 4), (2, 3)]
 
 def find_pairs(nums, target):
-    # Your code here
-    pass
+    pairs = []
+    seen = set()
+    for num in nums:
+        complement = target - num
+        if complement in seen:
+            pairs.append((complement, num))
+        seen.add(num)
+    return pairs
+   
 
 """
 Time and Space Analysis for problem 3:
-- Best-case:
-- Worst-case:
-- Average-case:
-- Space complexity:
-- Why this approach?
-- Could it be optimized?
+- Best-case:O(n)
+- Worst-case:O(n)
+- Average-case: O(n)
+- Space complexity:O(n)
+- Why this approach? It uses a set for O(1) lookup time and a list to store pairs.
+- Could it be optimized? No.
 """
 
 
@@ -75,16 +91,31 @@ Time and Space Analysis for problem 3:
 # add_n_items(6) → should print when resizing happens.
 
 def add_n_items(n):
-    # Your code here
-    pass
+    capacity = 4
+    size = 0
+    arr = [None] * capacity
+    for i in range(n):
+        if size == capacity:
+            print(f"Resizing from {capacity} to {capacity * 2}")
+            new_arr = [None] * new_capacity
+            for j in range(size):
+                new_arr[j] = arr[j]
+            arr = new_arr
+            capacity = new_capacity
+        arr[size] = i
+        size += 1
+        print(f"Added {i}, size: {size}, capacity: {capacity}")
+    return arr[:size] 
+   
 
 """
 Time and Space Analysis for problem 4:
-- When do resizes happen?
-- What is the worst-case for a single append?
-- What is the amortized time per append overall?
-- Space complexity:
-- Why does doubling reduce the cost overall?
+- When do resizes happen? When size == capacity. If capacity is 4, resizes happen at 4, 8, 16, etc.
+- What is the worst-case for a single append? O(n)
+- What is the amortized time per append overall? O(1)
+- Space complexity: O(n)
+- Why does doubling reduce the cost overall? If you resize by one, each resize requires copying more elements
+Doubling reduces the number of resizes needed, thus reducing the total number of copies made.
 """
 
 
@@ -98,15 +129,32 @@ Time and Space Analysis for problem 4:
 # Because: [1, 1+2, 1+2+3, 1+2+3+4]
 
 def running_total(nums):
-    # Your code here
-    pass
+    result = []
+    current_sum = 0
+    for num in nums:
+        current_sum += num
+        result.append(current_sum)
+    return result
 
 """
 Time and Space Analysis for problem 5:
-- Best-case:
-- Worst-case:
-- Average-case:
-- Space complexity:
-- Why this approach?
-- Could it be optimized?
+- Best-case:O(n)
+- Worst-case:O(n)
+- Average-case: O(n)
+- Space complexity: O(n)
+- Why this approach? It iterates through the list once and maintains a running sum.
+- Could it be optimized? yes
 """
+
+#refactor problem 5
+
+def running_total(nums):
+    for i in range(1, len(nums)):
+        nums[i] += nums[i - 1]
+    return nums
+print(running_total([1, 2, 3, 4]))  # Output: [1, 3, 6, 10]
+
+# Time Complexity: O(n)
+# Space Complexity: O(1)
+#The original solution allocates a second list to store results, requiring O(n) extra space.
+#The refactored solution reduces extra memory usage to O(1).
